@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @RequestMapping("/")
-    public String hello(){
+    public String hello() {
         return "hello spring boot";
     }
 
@@ -20,8 +20,9 @@ public class HelloController {
     private String name;
     @Value("${my.age}")
     private int age;
+
     @RequestMapping("/miya")
-    public String miya(){
+    public String miya() {
         return "name: " + name + "age: " + age;
     }
 
