@@ -31,12 +31,11 @@ public class SpringbootJmsApplicationTests {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         // 设置收件人，寄件人
         simpleMailMessage.setTo(new String[] {"hayashihuu@yahoo.co.jp"});
-        simpleMailMessage.setFrom("hayashihuu@qq.com");
+        simpleMailMessage.setFrom("594682797@qq.com");
         simpleMailMessage.setSubject("Spring Boot Mail 邮件测试【文本】");
         simpleMailMessage.setText("这里是一段简单文本。");
         // 发送邮件
         mailSender.send(simpleMailMessage);
-
         System.out.println("邮件已发送");
     }
 
