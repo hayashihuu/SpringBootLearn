@@ -12,9 +12,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringbootJmsApplicationTests {
+
     @Test
     public void contextLoads() {
 
