@@ -47,8 +47,8 @@ public class SpringbootJmsApplicationTests {
     public void sendHtmlMail() throws Exception {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-        mimeMessageHelper.setTo("miles02@163.com");
-        mimeMessageHelper.setFrom("miles02@163.com");
+        mimeMessageHelper.setTo("hayashihuu@yahoo.co.jp");
+        mimeMessageHelper.setFrom("594682797@qq.com");
         mimeMessageHelper.setSubject("Spring Boot Mail 邮件测试【HTML】");
 
         StringBuilder sb = new StringBuilder();
@@ -72,8 +72,8 @@ public class SpringbootJmsApplicationTests {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         // multipart模式
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-        mimeMessageHelper.setTo("miles02@163.com");
-        mimeMessageHelper.setFrom("miles02@163.com");
+        mimeMessageHelper.setTo("hayashihuu@yahoo.co.jp");
+        mimeMessageHelper.setFrom("594682797@qq.com");
         mimeMessageHelper.setSubject("Spring Boot Mail 邮件测试【图片】");
 
         StringBuilder sb = new StringBuilder();
@@ -105,15 +105,14 @@ public class SpringbootJmsApplicationTests {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         // multipart模式
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "utf-8");
-        mimeMessageHelper.setTo("miles02@163.com");
-        mimeMessageHelper.setFrom("miles02@163.com");
+        mimeMessageHelper.setTo("hayashihuu@yahoo.co.jp");
+        mimeMessageHelper.setFrom("594682797@qq.com");
         mimeMessageHelper.setSubject("Spring Boot Mail 邮件测试【附件】");
 
         StringBuilder sb = new StringBuilder();
         sb.append("<html><head></head>");
         sb.append("<body><h1>spring 邮件测试</h1><p>hello!this is spring mail test。</p></body>");
         sb.append("</html>");
-
         // 启用html
         mimeMessageHelper.setText(sb.toString(), true);
         // 设置附件
@@ -124,5 +123,11 @@ public class SpringbootJmsApplicationTests {
         mailSender.send(mimeMessage);
 
         System.out.println("邮件已发送");
+    }
+
+
+    @Test
+    public void test(){
+        System.out.println("test success");
     }
 }
