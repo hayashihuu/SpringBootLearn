@@ -15,6 +15,10 @@ import javax.validation.Valid;
 @Component
 public class WebController extends WebMvcConfigurerAdapter {
 
+    /**
+     * 不经过controller转发,直接进行url的跳转处理
+     * @param registry
+     */
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/results").setViewName("results");
@@ -25,9 +29,14 @@ public class WebController extends WebMvcConfigurerAdapter {
         return "form";
     }
 
+    /**
+     * 表单的验证
+     * @param personForm
+     * @param bindingResult
+     * @return
+     */
     @PostMapping("/")
     public String checkPersonInfo(@Valid PersonForm personForm, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
             return "form";
         }
