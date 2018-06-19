@@ -23,11 +23,9 @@ public class Springboottest04Application {
     @Bean
     RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
                                             MessageListenerAdapter listenerAdapter) {
-
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(listenerAdapter, new PatternTopic("chat"));
-
         return container;
     }
 
@@ -53,6 +51,7 @@ public class Springboottest04Application {
 
     public static void main(String[] args) throws InterruptedException {
         ApplicationContext ctx = SpringApplication.run(Springboottest04Application.class, args);
+        //反射创建对象
         StringRedisTemplate template = ctx.getBean(StringRedisTemplate.class);
         CountDownLatch latch = ctx.getBean(CountDownLatch.class);
         LOGGER.info("Sending message...");
