@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syun.springboottest12.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.syun.springboottest12.dto.Role">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="jsms" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="bz" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="jlzt" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="glbm" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="userid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, jsms, bz, jlzt, glbm, userid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.syun.springboottest12.dto.Role">
+    insert into role (id, name, jsms, 
+      bz, jlzt, glbm, userid
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{jsms,jdbcType=VARCHAR}, 
+      #{bz,jdbcType=VARCHAR}, #{jlzt,jdbcType=INTEGER}, #{glbm,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.syun.springboottest12.dto.Role">
+    insert into role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="jsms != null">
+        jsms,
+      </if>
+      <if test="bz != null">
+        bz,
+      </if>
+      <if test="jlzt != null">
+        jlzt,
+      </if>
+      <if test="glbm != null">
+        glbm,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="jsms != null">
+        #{jsms,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="jlzt != null">
+        #{jlzt,jdbcType=INTEGER},
+      </if>
+      <if test="glbm != null">
+        #{glbm,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.syun.springboottest12.dto.Role">
+    update role
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="jsms != null">
+        jsms = #{jsms,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        bz = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="jlzt != null">
+        jlzt = #{jlzt,jdbcType=INTEGER},
+      </if>
+      <if test="glbm != null">
+        glbm = #{glbm,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.syun.springboottest12.dto.Role">
+    update role
+    set name = #{name,jdbcType=VARCHAR},
+      jsms = #{jsms,jdbcType=VARCHAR},
+      bz = #{bz,jdbcType=VARCHAR},
+      jlzt = #{jlzt,jdbcType=INTEGER},
+      glbm = #{glbm,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
