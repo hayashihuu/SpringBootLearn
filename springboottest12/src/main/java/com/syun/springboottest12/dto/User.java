@@ -9,15 +9,11 @@ public class User {
 
     private String password;
 
-    /**
-     * 测试一对多连接
-     */
-    private List<Role> roles;
+    private List<Role> roles; //测试一对多连接
 
-    /**
-     * 测试一对一连接
-     */
-    private Role role;
+
+    private Role role;  //测试一对一连接
+
 
     public User(Integer id, String username, String password) {
         this.id = id;
