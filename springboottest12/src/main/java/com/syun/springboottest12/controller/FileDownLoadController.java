@@ -36,8 +36,7 @@ public class FileDownLoadController {
         // 设置文件名
         response.addHeader(
                 "Content-Disposition",
-                "attachment;fileName=" + "test.xlsx");
-
+                "attachment;fileName=" + "test");
         OutputStream os = null;
 
         try {

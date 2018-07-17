@@ -1,7 +1,11 @@
 package com.syun.springboottest12.dto;
 
+
+
+
 public class Role {
     private Integer id;
+
 
     private String name;
 

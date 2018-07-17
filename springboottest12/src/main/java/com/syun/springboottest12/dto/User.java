@@ -1,5 +1,7 @@
 package com.syun.springboottest12.dto;
 
+
+
 import java.util.List;
 
 public class User {
