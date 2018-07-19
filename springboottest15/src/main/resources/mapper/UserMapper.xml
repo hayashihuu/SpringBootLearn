@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.syun.springboottest15.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.syun.springboottest15.dto.User">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="password" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+
+  <!--单表查询所需-->
+  <resultMap id="UserAndRole" type="com.syun.springboottest15.dto.User">
+    <id property="id" column="id" jdbcType="INTEGER"/>
+    <result column="username" property="username" jdbcType="VARCHAR"/>
+    <result column="password" property="password" jdbcType="VARCHAR"/>
+    <collection property="role" javaType="com.syun.springboottest15.dto.Role">
+      <id column="r_id" property="id" jdbcType="INTEGER" />
+      <result column="r_name" property="name" jdbcType="VARCHAR" />
+      <result column="r_jsms" property="jsms" jdbcType="VARCHAR" />
+      <result column="r_bz" property="bz" jdbcType="VARCHAR" />
+      <result column="r_jlzt" property="jlzt" jdbcType="INTEGER" />
+      <result column="r_glbm" property="glbm" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+
+
+  <!--两表联查所需-->
+  <resultMap id="queryForListMap" type="com.syun.springboottest15.dto.User">
+    <id column="id" property="id" jdbcType="INTEGER"/>
+    <result column="username" property="username" jdbcType="VARCHAR"/>
+    <result column="password" property="password" jdbcType="VARCHAR"/>
+    <collection property="roles" javaType="java.util.List" ofType="com.syun.springboottest15.dto.Role">
+      <id column="r_id" property="id" jdbcType="INTEGER" />
+      <result column="r_name" property="name" jdbcType="VARCHAR" />
+      <result column="r_jsms" property="jsms" jdbcType="VARCHAR" />
+      <result column="r_bz" property="bz" jdbcType="VARCHAR" />
+      <result column="r_jlzt" property="jlzt" jdbcType="INTEGER" />
+      <result column="r_glbm" property="glbm" jdbcType="VARCHAR" />
+      <!--<result column="r_userid" property="userid" jdbcType="INTEGER"/>-->
+    </collection>
+  </resultMap>
+
+  <select id="queryUserRole" resultMap="UserAndRole" parameterType="java.lang.Integer">
+    select  u.id,
+          u.username,
+          u.password,
+          r.id r_id,
+          r.name r_name,
+          r.jsms r_jsms,
+          r.bz r_bz,
+          r.jlzt r_jlzt,
+          r.glbm r_glbm
+          from user u ,role r
+          where u.id=r.id and u.id =  #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryForList" resultMap="queryForListMap" parameterType="java.lang.Integer">
+        SELECT
+          u.id,
+          u.username,
+          u.password,
+          r.id r_id,
+          r.name r_name,
+          r.jsms r_jsms,
+          r.bz r_bz,
+          r.jlzt r_jlzt,
+          r.glbm r_glbm
+        FROM
+          user u
+        LEFT JOIN
+          role r
+        ON
+          u.id = r.userid
+    </select>
+  <sql id="Base_Column_List">
+    id, username, password
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.syun.springboottest15.dto.User">
+    insert into user (id, username, password
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.syun.springboottest15.dto.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.syun.springboottest15.dto.User">
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.syun.springboottest15.dto.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
