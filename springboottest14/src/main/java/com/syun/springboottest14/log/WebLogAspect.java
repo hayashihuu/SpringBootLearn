@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 public class WebLogAspect {
     private Logger logger = Logger.getLogger(String.valueOf(this.getClass()));
 
+    ThreadLocal<Long> startTime = new ThreadLocal<>();
     /**
      * 配置扫描的类
      */
@@ -33,6 +34,9 @@ public class WebLogAspect {
 
     @Before("webLog()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {
+
+        //记录开始时间
+        startTime.set(System.currentTimeMillis());
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -56,6 +60,8 @@ public class WebLogAspect {
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
         logger.info("RESPONSE : " + ret);
+        // 处理的时间
+        logger.info("SPEND TIME : " + (System.currentTimeMillis() - startTime.get()));
     }
 
 
