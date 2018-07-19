@@ -2,16 +2,20 @@ package com.syun.springboottest13.controller;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.syun.springboottest13.model.Article;
+import com.syun.springboottest13.model.User;
 import com.syun.springboottest13.utils.SolrUtil;
 import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.solr.core.query.QueryParameter;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -33,8 +37,13 @@ public class SolrController {
     @Autowired
     private SolrClient client;
 
+    /**
+     * 各种取值方法测试
+     * @throws IOException
+     * @throws SolrServerException
+     */
     @Test
-    public void search(){
+    public void search() throws IOException, SolrServerException {
         SolrDocument document = null;
         try {
             document = client.getById("artilces", "1");
@@ -44,6 +53,21 @@ public class SolrController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        {
+            SolrQuery sq = new SolrQuery();
+            sq.set("q","company:汉得");
+            QueryResponse qr = client.query("user",sq);
+            List<User> list = qr.getBeans(User.class);
+            List<Article> articles = qr.getBeans(Article.class);
+            System.out.println(list.toString());
+            System.out.println(articles.toString());
+
+            SolrDocumentList documents = qr.getResults();
+            documents.forEach((p)-> System.out.println(p.toString()));
+        }
+
+
     }
 
 
@@ -104,9 +128,7 @@ public class SolrController {
             QueryResponse respone = SolrUtil.query("content","长春");
             List<Article> articleList = respone.getBeans(Article.class);
             System.out.println(articleList);
-        } catch (SolrServerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
