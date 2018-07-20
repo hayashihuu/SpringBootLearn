@@ -1,5 +1,7 @@
 package com.syun.springboottest13.model;
 
+import org.apache.solr.client.solrj.beans.Field;
+
 import java.util.Date;
 
 /*
@@ -11,28 +13,37 @@ import java.util.Date;
 public class User {
 
 
+    @Field
     private String name;
 
-    private Integer id;
+    @Field
+    private String id;
 
+    @Field
     private String province;
 
+    @Field
     private String city;
 
+    @Field
     private String company;
 
-    private Double total;
+    @Field
+    private String total;
 
+    @Field
     private String flg;
 
+    @Field
     private Date modifyTime;
 
+    @Field
     private boolean is_deleted;
 
     public User() {
     }
 
-    public User(String name, Integer id, String province, String city, String company, Double total, String flg, Date modifyTime, boolean is_deleted) {
+    public User(String name, String id, String province, String city, String company, String total, String flg, Date modifyTime, boolean is_deleted) {
         this.name = name;
         this.id = id;
         this.province = province;
@@ -52,11 +63,11 @@ public class User {
         this.name = name;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -84,11 +95,11 @@ public class User {
         this.company = company;
     }
 
-    public Double getTotal() {
+    public String getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(String total) {
         this.total = total;
     }
 
