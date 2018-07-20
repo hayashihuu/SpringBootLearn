@@ -56,6 +56,7 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <!--单元测试-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -75,6 +76,16 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>5.0.6.RELEASE</version>
+        </dependency>
+
+        <!--log文件依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j</artifactId>
         </dependency>
 
     </dependencies>

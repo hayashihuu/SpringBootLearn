@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /*
- * @description:
+ * @description: 测试缓存
  * @program: springboottest15
  * @author: syun
  * @create: 2018-07-11 13:49
