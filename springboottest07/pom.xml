@@ -43,6 +43,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- 文件上传 -->
     </dependencies>
 
     <build>
