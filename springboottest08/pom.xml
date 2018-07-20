@@ -40,7 +40,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+<!-- 定时任务 -->
     <build>
         <plugins>
             <plugin>
