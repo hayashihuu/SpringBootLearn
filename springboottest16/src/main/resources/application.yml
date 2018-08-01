@@ -1,0 +1,18 @@
+spring:
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/mybtis_test01?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 594682797
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  mapper-locations: mapper/*.xml
+sensor:
+  port: 8080
+  dataLength: 27
+server:
+  port: 8080
+logging:
+  path: logs
