@@ -17,17 +17,18 @@ public class AsyncTasks {
 
     private Logger logger = LoggerFactory.getLogger(AsyncTasks.class);
 
-    @Async
+    @Async("taskExecutor")
     public void task01() {
         logger.info("开始做任务一");
     }
 
 
+    @Async("taskExecutor")
     public void task02() {
         logger.info("开始做任务二");
     }
 
-
+    @Async("taskExecutor")
     public void task03() {
         logger.info("开始做任务三");
     }
