@@ -3,6 +3,7 @@ package com.syun.springboottest08.Dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,10 @@ import java.util.Date;
 
 @Component
 public class ScheduledTasks {
+
+    @Autowired
+    private AsyncTasks asyncTasks;
+
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -24,5 +29,10 @@ public class ScheduledTasks {
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
         log.info("The time is now {}", dateFormat.format(new Date()));
+        asyncTasks.task01();
+        asyncTasks.task02();
+        asyncTasks.task03();
+        log.info("Async test start ");
+
     }
 }
