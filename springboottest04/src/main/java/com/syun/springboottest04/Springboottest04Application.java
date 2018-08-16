@@ -55,8 +55,10 @@ public class Springboottest04Application {
         StringRedisTemplate template = ctx.getBean(StringRedisTemplate.class);
         CountDownLatch latch = ctx.getBean(CountDownLatch.class);
         LOGGER.info("Sending message...");
-        template.convertAndSend("chat", "Hello from Redis!");
+//        发送消息队列
+        template.convertAndSend("chat", "Hello from Redis1!");
+        template.convertAndSend("chat", "Hello from Redis2!");
+        template.convertAndSend("chat", "Hello from Redis3!");
         latch.await();
-        System.exit(0);
     }
 }
