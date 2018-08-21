@@ -135,4 +135,14 @@
       password = #{password,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="insertBatch">
+    insert into user (id, username, password)
+    values
+    <foreach collection="list" item="user" separator=",">
+      (#{user.id}, #{user.username}, #{user.password})
+    </foreach>
+  </insert>
+
+
 </mapper>

@@ -21,4 +21,7 @@ public interface UserMapper {
 
 //    单表查询
     List<User> queryUserRole(Integer id);
+
+//    批量传入
+    int insertBatch(List<User> list);
 }

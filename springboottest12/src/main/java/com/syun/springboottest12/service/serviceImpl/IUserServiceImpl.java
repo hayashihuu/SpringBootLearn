@@ -1,5 +1,6 @@
 package com.syun.springboottest12.service.serviceImpl;
 
+import com.google.common.collect.Lists;
 import com.syun.springboottest12.dto.User;
 import com.syun.springboottest12.mapper.IUserMapper;
 import com.syun.springboottest12.service.IUserService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -61,5 +63,25 @@ public class IUserServiceImpl implements IUserService {
     public void test(){
 //        queryUserList();
         System.out.println(getUserById(1).toString());
+
     }
+
+    /**
+     * 测试批量导入数据
+     */
+    @Test
+    public void test01() {
+        List<User> list = Lists.newArrayList();
+        User user;
+        for (int i = 0; i < 10000; i++) {
+            user = new User();
+            user.setId(i+5);
+            user.setUsername("name" + i);
+            user.setPassword("0");
+            list.add(user);
+        }
+        mapper.insertBatch(list);
+    }
+
+
 }
