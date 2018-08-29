@@ -24,13 +24,17 @@ import java.util.List;
 @Controller
 public class ApplicationTests {
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private final RedisTemplate<String, User> redisTemplate;
+
     @Autowired
-    private RedisTemplate<String, User> redisTemplate;
+    public ApplicationTests(StringRedisTemplate stringRedisTemplate, RedisTemplate<String, User> redisTemplate) {
+        this.stringRedisTemplate = stringRedisTemplate;
+        this.redisTemplate = redisTemplate;
+    }
 
 
     @RequestMapping("test01")

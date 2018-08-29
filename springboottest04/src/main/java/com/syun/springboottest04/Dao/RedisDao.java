@@ -9,8 +9,12 @@ import java.util.concurrent.TimeUnit;
 
 @Repository
 public class RedisDao {
+    private final StringRedisTemplate template;
+
     @Autowired
-    private StringRedisTemplate template;
+    public RedisDao(StringRedisTemplate template) {
+        this.template = template;
+    }
 
     public  void setKey(String key,String value){
         ValueOperations<String, String> ops = template.opsForValue();
