@@ -6,6 +6,7 @@ import com.syun.springboottest12.mapper.IUserMapper;
 import com.syun.springboottest12.service.IUserService;
 
 
+import com.syun.springboottest12.utils.RandomValueUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,11 +74,12 @@ public class IUserServiceImpl implements IUserService {
     public void test01() {
         List<User> list = Lists.newArrayList();
         User user;
+
         for (int i = 0; i < 10000; i++) {
             user = new User();
             user.setId(i+5);
-            user.setUsername("name" + i);
-            user.setPassword("0");
+            user.setUsername(RandomValueUtil.getChineseName());
+            user.setPassword(RandomValueUtil.getLandline());
             list.add(user);
         }
         mapper.insertBatch(list);

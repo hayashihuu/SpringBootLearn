@@ -1,9 +1,11 @@
 package com.syun.springboottest12.mapper;
 
 import com.syun.springboottest12.dto.User;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
 
