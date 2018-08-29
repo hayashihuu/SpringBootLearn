@@ -2,6 +2,7 @@ package com.syun.springbootkafka.beans;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /*
@@ -11,7 +12,7 @@ import java.util.Date;
  * @create: 2018-08-14 13:53
  */
 @Data
-public class Message {
+public class Message implements Serializable {
     private Long id;    //id
 
     private String msg; //消息

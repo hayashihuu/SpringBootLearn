@@ -20,11 +20,16 @@ import java.util.UUID;
  * @create: 2018-08-14 13:54
  */
 @Component
-@Slf4j
 public class KafkaSender {
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
+
+    @Autowired
+    private KafkaTemplate<String, Object> kafkaTemplate1;
+
+
+
 
     private Gson gson = new GsonBuilder().create();
 
@@ -38,7 +43,11 @@ public class KafkaSender {
         message.setMsg(UUID.randomUUID().toString());
         message.setSendTime(new Date());
         logger.info("message = {}", gson.toJson("发送数据"));
-        kafkaTemplate.send("zhisheng", gson.toJson("发送数据"));
+        kafkaTemplate.send("zhisheng","测试数据");
+
+        kafkaTemplate1.send("message", "测试多个topic");
+
+
     }
 
 
