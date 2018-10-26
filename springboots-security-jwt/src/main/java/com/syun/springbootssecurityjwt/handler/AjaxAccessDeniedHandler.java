@@ -18,10 +18,8 @@ public class AjaxAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         AjaxResponseBody responseBody = new AjaxResponseBody();
-
         responseBody.setStatus("03");
         responseBody.setMsg("Need Authorities!");
-
         response.getWriter().write(JSON.toJSONString(responseBody));
     }
 }

@@ -20,7 +20,6 @@ public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHa
 
         responseBody.setStatus("02");
         responseBody.setMsg("Login Failure!");
-
         response.getWriter().write(JSON.toJSONString(responseBody));
     }
 }

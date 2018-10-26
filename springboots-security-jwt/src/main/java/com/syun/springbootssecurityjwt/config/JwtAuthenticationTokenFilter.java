@@ -23,17 +23,18 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        
-    	//请求头为 Authorization
-    	//请求体为 Bearer token
 
-    	String authHeader = request.getHeader("Authorization");
+        //请求头为 Authorization
+        //请求体为 Bearer token
+
+        String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
             final String authToken = authHeader.substring("Bearer ".length());
-
             String username = JwtTokenUtil.parseToken(authToken);
+            isAlive(authToken);
+
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 if (userDetails != null) {
@@ -46,4 +47,20 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
         chain.doFilter(request, response);
     }
+
+    /**
+     * 判断jwtToken是否已经过期
+     * @param jwtToken jwt
+     * @return 验证结果
+     */
+    public static boolean isAlive(String jwtToken) {
+
+        if (JwtTokenUtil.getDate(jwtToken).getTime() > System.currentTimeMillis()) {
+            return false;
+        }
+        return true;
+
+    }
+
+
 }

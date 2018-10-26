@@ -23,6 +23,7 @@ public class JwtTokenUtil {
 	//使用更安全的非对称加密
 	
 	//加载jwt.jks文件
+
     private static InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("jwt.jks");
     private static PrivateKey privateKey = null;
     private static PublicKey publicKey = null;
@@ -30,8 +31,8 @@ public class JwtTokenUtil {
     static {
         try {
             KeyStore keyStore = KeyStore.getInstance("JKS");
-            keyStore.load(inputStream, "lhc123".toCharArray());
-            privateKey = (PrivateKey) keyStore.getKey("jwt", "lhc123".toCharArray());
+            keyStore.load(inputStream, "hayashi".toCharArray());
+            privateKey = (PrivateKey) keyStore.getKey("jwt", "hayashi".toCharArray());
             publicKey = keyStore.getCertificate("jwt").getPublicKey();
         } catch (Exception e) {
             e.printStackTrace();
@@ -57,5 +58,13 @@ public class JwtTokenUtil {
         } catch (Exception e) {
         }
         return subject;
+    }
+
+    public static Date getDate(String token){
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(publicKey)
+                .parseClaimsJws(token).getBody();
+        return claims.getExpiration();
     }
 }

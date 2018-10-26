@@ -22,7 +22,6 @@ public class AjaxAuthenticationEntryPoint implements AuthenticationEntryPoint {
         ajaxResponseBody.setMsg("need to login");
         Gson gson = new Gson();
         String s = gson.toJson(ajaxResponseBody);
-
         httpServletResponse.getWriter().write(s);
     }
 }

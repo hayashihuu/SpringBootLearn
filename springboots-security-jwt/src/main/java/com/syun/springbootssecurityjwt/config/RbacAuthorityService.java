@@ -9,7 +9,6 @@ import org.springframework.util.AntPathMatcher;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 @Component("rbacauthorityservice")
@@ -28,12 +27,11 @@ public class RbacAuthorityService {
             String username = ((UserDetails) userInfo).getUsername();
 
             Collection<? extends GrantedAuthority> authorities = ((UserDetails) userInfo).getAuthorities();
-            Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
             for (GrantedAuthority authority : authorities) {
-                if (authority.getAuthority().equals("ROLE_ADMIN")) {
-
+                if ("ROLE_ADMIN".equals(authority.getAuthority())) {
                     //admin 可以访问的资源
                     Set<String> urls = new HashSet();
+//                    添加permission
                     urls.add("/sys/**");
                     urls.add("/test/**");
                     AntPathMatcher antPathMatcher = new AntPathMatcher();
@@ -44,15 +42,17 @@ public class RbacAuthorityService {
                         }
                     }
                 }
-            }
-            //user可以访问的资源
-            Set<String> urls = new HashSet();
-            urls.add("/test/**");
-            AntPathMatcher antPathMatcher = new AntPathMatcher();
-            for (String url : urls) {
-                if (antPathMatcher.match(url, request.getRequestURI())) {
-                    hasPermission = true;
-                    break;
+                //user可以访问的资源
+                if("ROLE_USER".equals(authority.getAuthority())){
+                    Set<String> urls = new HashSet();
+                    urls.add("/test/**");
+                    AntPathMatcher antPathMatcher = new AntPathMatcher();
+                    for (String url : urls) {
+                        if (antPathMatcher.match(url, request.getRequestURI())) {
+                            hasPermission = true;
+                            break;
+                        }
+                    }
                 }
             }
             return hasPermission;

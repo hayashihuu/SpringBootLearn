@@ -17,20 +17,18 @@ import java.io.IOException;
 @Component
 public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-
+    /**
+     * 登录成功返回生成jwt
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         AjaxResponseBody responseBody = new AjaxResponseBody();
-
         responseBody.setStatus("00");
         responseBody.setMsg("Login Success!");
-
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
-
-
+        //生成jwtToken设置启用时间为300秒
         String jwtToken = JwtTokenUtil.generateToken(myUserDetails.getUsername(), 300);
         responseBody.setJwtToken(jwtToken);
-
         response.getWriter().write(JSON.toJSONString(responseBody));
     }
 }
