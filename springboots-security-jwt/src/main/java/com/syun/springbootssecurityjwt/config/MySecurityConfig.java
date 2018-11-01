@@ -1,18 +1,18 @@
 package com.syun.springbootssecurityjwt.config;
 
 
-import com.sun.org.apache.xpath.internal.operations.And;
 import com.syun.springbootssecurityjwt.handler.*;
+import com.syun.springbootssecurityjwt.sms.SmsCodeAuthenticationSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final AjaxLogoutSuccessHandler logoutSuccessHandler;
@@ -29,8 +29,10 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
+    private final SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
     @Autowired
-    public MySecurityConfig(AjaxLogoutSuccessHandler logoutSuccessHandler, AjaxAuthenticationEntryPoint authenticationEntryPoint, AjaxAccessDeniedHandler accessDeniedHandler, AjaxAuthenticationFailureHandler authenticationFailureHandler, AjaxAuthenticationSuccessHandler authenticationSuccessHandler, MyUserDetailsService myUserDetailsService, JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter) {
+    public MySecurityConfig(AjaxLogoutSuccessHandler logoutSuccessHandler, AjaxAuthenticationEntryPoint authenticationEntryPoint, AjaxAccessDeniedHandler accessDeniedHandler, AjaxAuthenticationFailureHandler authenticationFailureHandler, AjaxAuthenticationSuccessHandler authenticationSuccessHandler, MyUserDetailsService myUserDetailsService, JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter, SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig) {
         this.logoutSuccessHandler = logoutSuccessHandler;
         this.authenticationEntryPoint = authenticationEntryPoint;
         this.accessDeniedHandler = accessDeniedHandler;
@@ -38,6 +40,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         this.authenticationSuccessHandler = authenticationSuccessHandler;
         this.myUserDetailsService = myUserDetailsService;
         this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
+        this.smsCodeAuthenticationSecurityConfig = smsCodeAuthenticationSecurityConfig;
     }
 
     @Override
@@ -61,6 +64,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessHandler(logoutSuccessHandler).permitAll()
                 .and()
                 .csrf().disable();
+        http.apply(smsCodeAuthenticationSecurityConfig);
         http.rememberMe().rememberMeParameter("remember-me")
                 .userDetailsService(myUserDetailsService).tokenValiditySeconds(300);
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
@@ -76,5 +80,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
         //使用数据库
         auth.userDetailsService(myUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
+
+
 
 }

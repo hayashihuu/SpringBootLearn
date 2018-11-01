@@ -46,6 +46,7 @@ public class RbacAuthorityService {
                 if("ROLE_USER".equals(authority.getAuthority())){
                     Set<String> urls = new HashSet();
                     urls.add("/test/**");
+                    urls.add("/product/**");
                     AntPathMatcher antPathMatcher = new AntPathMatcher();
                     for (String url : urls) {
                         if (antPathMatcher.match(url, request.getRequestURI())) {
