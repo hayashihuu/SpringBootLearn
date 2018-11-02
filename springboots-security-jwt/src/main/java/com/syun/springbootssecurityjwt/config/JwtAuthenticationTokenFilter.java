@@ -1,7 +1,10 @@
 package com.syun.springbootssecurityjwt.config;
 
 import com.syun.springbootssecurityjwt.utils.JwtTokenUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,9 +20,15 @@ import java.io.IOException;
 
 
 @Component
+@Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
     MyUserDetailsService userDetailsService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    private final static String TYPE = "Bearer ";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -33,23 +42,34 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
             final String authToken = authHeader.substring("Bearer ".length());
             String username = JwtTokenUtil.parseToken(authToken);
-            isAlive(authToken);
+//            两种判断token过期方式
+            if (!isAlive(authToken)) {
+                log.info("token过期,username: {}", username);
+            }
+
+            ValueOperations<String, String> ops = redisTemplate.opsForValue();
+            String token = ops.get(username);
+            if (token == null) {
+                log.info("token过期,username: {}", username);
+            }
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//                获取用户身份
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 if (userDetails != null) {
                     UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
-}
+                            new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            }
         }
-                chain.doFilter(request, response);
+        chain.doFilter(request, response);
     }
 
     /**
      * 判断jwtToken是否已经过期
+     *
      * @param jwtToken jwt
      * @return 验证结果
      */
@@ -59,7 +79,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             return false;
         }
         return true;
-
     }
 
 

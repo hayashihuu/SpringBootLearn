@@ -14,16 +14,12 @@ import java.util.Collection;
  */
 public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
-
-
     /**
      * 手机号
      */
     private final Object principal;
 
-
     private Object credentials;
-
 
 
     public SmsCodeAuthenticationToken(Collection<? extends GrantedAuthority> authorities, String moblie) {

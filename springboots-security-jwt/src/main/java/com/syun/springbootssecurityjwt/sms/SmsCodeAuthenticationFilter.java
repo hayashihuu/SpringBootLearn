@@ -64,9 +64,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         if (mobile == null) {
             mobile = "";
         }
-
         mobile = mobile.trim();
-
 
         SmsCodeAuthenticationToken authRequest = new SmsCodeAuthenticationToken(mobile,code);
 

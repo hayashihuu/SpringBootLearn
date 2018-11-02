@@ -38,6 +38,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
             log.info("验证码错误,mobile: {}", authentication.getPrincipal());
             throw new BadCredentialsException("验证码错误");
         }
+        //username为手机号
         SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(user, user.getAuthorities());
         authenticationResult.setDetails(authenticationToken.getDetails());
         return authenticationResult;
