@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,10 +31,13 @@ public class ApplicationTests {
 
     private final RedisTemplate<String, User> redisTemplate;
 
+    private final RedisDao redisDao;
+
     @Autowired
-    public ApplicationTests(StringRedisTemplate stringRedisTemplate, RedisTemplate<String, User> redisTemplate) {
+    public ApplicationTests(StringRedisTemplate stringRedisTemplate, RedisTemplate<String, User> redisTemplate, RedisDao redisDao) {
         this.stringRedisTemplate = stringRedisTemplate;
         this.redisTemplate = redisTemplate;
+        this.redisDao = redisDao;
     }
 
 
@@ -59,7 +63,6 @@ public class ApplicationTests {
 
         user = new User("蜘蛛侠", 40);
         redisTemplate.opsForValue().set(user.getUsername(), user);
-
 //        logger.info(redisTemplate.opsForValue().get("超人").getAge().longValue());
 //        Assert.assertEquals(30, redisTemplate.opsForValue().get("蝙蝠侠").getAge().longValue());
 //        Assert.assertEquals(40, redisTemplate.opsForValue().get("蜘蛛侠").getAge().longValue());
@@ -67,6 +70,23 @@ public class ApplicationTests {
                 redisTemplate.opsForValue().get("蝙蝠侠"),
                 redisTemplate.opsForValue().get("蜘蛛侠"));
 
+    }
+
+
+    @RequestMapping("/testredis")
+    @ResponseBody
+    public String test02() {
+        System.out.println("testtestredis");
+        redisDao.List();
+        return "success";
+
+    }
+
+    @RequestMapping("/test03")
+    @ResponseBody
+    public String test03(){
+        redisDao.hash();
+        return "hash";
     }
 
 }
